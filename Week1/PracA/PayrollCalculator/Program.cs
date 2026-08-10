@@ -37,3 +37,22 @@ catch (ArgumentException ex)
 {
     Console.WriteLine(ex.Message);
 }
+
+Console.WriteLine();
+Console.WriteLine("Person Class Demo:");
+
+try
+{
+    Person person = new Person("Casey", "Smith", 20);
+
+    Console.WriteLine($"First Name: {person.FirstName}");
+    Console.WriteLine($"Last Name: {person.LastName}");
+    Console.WriteLine($"Age: {person.Age}");
+
+    Console.WriteLine($"Full Name: {person.FullName()}");
+    Console.WriteLine($"Is Adult: {person.IsAdult()}");
+}
+catch (ArgumentException ex)
+{
+    Console.WriteLine($"Person error: {ex.Message}");
+}
