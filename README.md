@@ -4,13 +4,28 @@ COMP2021 workshop and practical portfolio.
 
 ## Week 1
 
-- Prac A
-  - IntroTopic
-  - PayrollCalculator
-  ## Prac B Refactoring Note
+### Part A
+
+- IntroTopic
+- PayrollCalculator
+
+### Part B
+
+- PracB
+- PracB.Tests
+
+#### Refactoring Note
 
 I extracted each command into a separate method so that each method has one clear responsibility. This makes the code easier to read, maintain, and test.
-## Topic 2 Part A Reflection
+
+## Week 2
+
+### Part A
+
+- PracA
+- PracA.Tests
+
+#### Reflection
 
 Moving from procedural code to a class-based design made the payroll program more organised. The data and related methods are now kept together in the Payroll class. This makes the code easier to reuse, test, and update.
 
