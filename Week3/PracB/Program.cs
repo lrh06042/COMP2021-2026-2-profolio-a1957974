@@ -24,3 +24,28 @@ Console.WriteLine(contractor.GenerateReport());
 Console.WriteLine(
     $"CalculatePay(): ${contractor.CalculatePay():F2}"
 );
+Console.WriteLine();
+
+Console.WriteLine("=== Polymorphism Demonstration ===");
+
+List<Employee> employees = new List<Employee>
+{
+    fullTimeEmployee,
+    contractor
+};
+
+foreach (Employee employee in employees)
+{
+    decimal netPay = employee.CalculatePay();
+
+    decimal grossPay =
+        netPay / (1 - Employee.TaxRate);
+
+    decimal tax =
+        grossPay * Employee.TaxRate;
+
+    Console.WriteLine(
+        $"{employee.Name}: Pay ${grossPay:F2}. " +
+        $"Tax ${tax:F2}. Net Pay ${netPay:F2}."
+    );
+}
