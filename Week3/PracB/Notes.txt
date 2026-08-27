@@ -1,0 +1,16 @@
+Task 2 - Polymorphism
+
+Polymorphism allows FullTimeEmployee and
+Contractor objects to be stored in the same
+List<Employee>.
+
+Both objects are treated as Employee objects.
+
+However, calling CalculatePay() runs the
+overridden method for the actual employee type.
+
+This allows the foreach loop to process each
+employee in the same way.
+
+Each employee still calculates pay using its
+own rules.

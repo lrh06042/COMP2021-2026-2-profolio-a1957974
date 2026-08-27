@@ -1,0 +1,45 @@
+COMP2021 Week 2 Part B Reflection
+
+1. What does encapsulation achieve in C#?
+
+Encapsulation keeps related data and methods
+together inside one class.
+
+It also protects data from incorrect changes.
+
+In my BankAccount class, Balance has a private
+setter. Other code cannot change it directly.
+
+The balance is changed through the Deposit and
+Withdraw methods.
+
+2. Why are access modifiers important?
+
+Access modifiers control where classes, properties,
+and methods can be used.
+
+Public members can be accessed outside the class.
+
+Private members can only be accessed inside the
+class.
+
+This protects data and makes the program easier
+to manage.
+
+3. How would you explain method overloading
+   to a Python programmer?
+
+Method overloading means creating methods with
+the same name but different parameter types.
+
+C# chooses the correct method by checking the
+type of argument provided.
+
+Deposit(100) calls the int version.
+
+Deposit(50.5) calls the double version.
+
+Deposit(100m) calls the decimal version.
+
+Python usually creates similar behaviour by
+checking the argument type inside one method.
