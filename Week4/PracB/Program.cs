@@ -32,10 +32,12 @@ public static class Program
         tachyonGrid[posY + 1] = line;
     }
 
-    /*
-    This is a multiline comment
-    TODO: ProcessSplitter should return an int to add to the total, but it currently returns nothing.
-    */
+    /// <summary>
+/// Processes a splitter and sends the tachyon beam to the left and right when a beam is above it.
+/// </summary>
+/// <param name="posX">The horizontal position of the splitter.</param>
+/// <param name="posY">The vertical position of the splitter.</param>
+/// <param name="tachyonGrid">The grid containing the tachyon paths.</param>
     public static void processSplitter(int posX, int posY, List<string> tachyonGrid)
     {
         string line = tachyonGrid[posY];
@@ -49,18 +51,17 @@ public static class Program
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="posX"></param>
-    /// <param name="posY"></param>
-    /// <param name="tachyonGrid"></param>
-    public static void processEmpty(int posX, int posY, List<string> tachyonGrid)
+       public static void processEmpty(int posX, int posY, List<string> tachyonGrid)
     {
         string line = tachyonGrid[posY];
         StringBuilder sb = new StringBuilder(line);
         if (tachyonGrid[posY - 1][posX] == '|')
-        {
+        {/// <summary>
+/// Processes an empty position and continues the tachyon beam downward if a beam is above it.
+/// </summary>
+/// <param name="posX">The horizontal position of the empty space.</param>
+/// <param name="posY">The vertical position of the empty space.</param>
+/// <param name="tachyonGrid">The grid containing the tachyon paths.</param>
             sb[posX] = '|';
             line = sb.ToString();
             tachyonGrid[posY] = line;
