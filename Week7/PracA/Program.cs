@@ -46,9 +46,32 @@ for (int i = 1; i <= 10; i++)
         $"Owner{i:D2}", random.Next(10000, 500001) / 100m));
 }
 
-SortedSet<BankAccount> sortedBankSet = new();
+SortedSet<BankAccount> sortedBankSet = new(new BankComparer());
 
 foreach (BankAccount account in accounts)
 {
     sortedBankSet.Add(account);
+}
+Console.WriteLine("=== Accounts Test 1: 10 accounts ===");
+DisplayAccounts(sortedBankSet);
+
+Console.WriteLine("=== Accounts Test 2: Add highest balance ===");
+sortedBankSet.Add(new BankAccount("TopOwner", 10000m));
+DisplayAccounts(sortedBankSet);
+
+Console.WriteLine("=== Accounts Test 3: Add duplicate ===");
+bool accountAdded = sortedBankSet.Add(
+    new BankAccount("TopOwner", 10000m));
+Console.WriteLine($"Duplicate added: {accountAdded}");
+DisplayAccounts(sortedBankSet);
+
+static void DisplayAccounts(SortedSet<BankAccount> accounts)
+{
+    foreach (BankAccount account in accounts)
+    {
+        Console.WriteLine($"{account.Owner,-12} {account.Balance,10:F2}");
+    }
+
+    Console.WriteLine($"Count: {accounts.Count}");
+    Console.WriteLine();
 }
