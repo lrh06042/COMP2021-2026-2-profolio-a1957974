@@ -36,3 +36,19 @@ static void DisplayScores(SortedSet<int> scores)
     Console.WriteLine($"Count: {scores.Count}");
     Console.WriteLine();
 }
+Console.WriteLine("=== Task 2: BankAccount without a comparer ===");
+
+List<BankAccount> accounts = new();
+
+for (int i = 1; i <= 10; i++)
+{
+    accounts.Add(new BankAccount(
+        $"Owner{i:D2}", random.Next(10000, 500001) / 100m));
+}
+
+SortedSet<BankAccount> sortedBankSet = new();
+
+foreach (BankAccount account in accounts)
+{
+    sortedBankSet.Add(account);
+}
