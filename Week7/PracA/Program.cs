@@ -75,3 +75,26 @@ static void DisplayAccounts(SortedSet<BankAccount> accounts)
     Console.WriteLine($"Count: {accounts.Count}");
     Console.WriteLine();
 }
+Console.WriteLine("=== Task 3: Account balance chart ===");
+
+double[] balances = new double[sortedBankSet.Count];
+int index = 0;
+
+foreach (BankAccount account in sortedBankSet)
+{
+    balances[index] = (double)account.Balance;
+    index++;
+}
+
+ScottPlot.Plot myPlot = new();
+myPlot.Add.Bars(balances);
+
+myPlot.XLabel("Ranking");
+myPlot.YLabel("Account Balance");
+myPlot.Axes.Bottom.Label.FontSize = 20;
+myPlot.Axes.Left.Label.FontSize = 20;
+
+myPlot.Axes.Margins(bottom: 0, top: 0.2);
+
+myPlot.SavePng("Topic7A-Task3.png", 800, 600);
+Console.WriteLine("Chart saved: Topic7A-Task3.png");
