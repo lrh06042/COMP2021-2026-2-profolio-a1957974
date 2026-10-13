@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Linq;
+using System.Diagnostics;
+using System.Text;
 
 namespace PracA;
 
@@ -46,6 +48,47 @@ internal class Program
             Player player = (Player)entry.Key;
             int score = (int)entry.Value!;
             Console.WriteLine($"{player.Name}: {score}");
+        }
+        RunTask2();
+    }
+
+    static void RunTask2()
+    {
+        Console.WriteLine("\nTask 2: String concatenation vs StringBuilder");
+        Console.WriteLine("Times are in milliseconds (ms).");
+        Console.WriteLine($"{"Characters",12} {"Append (+=)",16} {"Build",16} {"Outputs match",16}");
+
+        int[] loopSizes = { 10_000, 50_000, 100_000 };
+        foreach (int count in loopSizes)
+        {
+            // Append: repeatedly create a new string.
+            Stopwatch appendWatch = new Stopwatch();
+            string aOutput = "";
+            appendWatch.Start();
+            for (int i = 0; i < count; i++)
+            {
+                aOutput += "z";
+            }
+            appendWatch.Stop();
+
+            // Build: append the same text using StringBuilder.
+            Stopwatch buildWatch = new Stopwatch();
+            StringBuilder bOutput = new StringBuilder();
+            buildWatch.Start();
+            for (int i = 0; i < count; i++)
+            {
+                bOutput.Append("z");
+            }
+            buildWatch.Stop();
+
+            // Validate and print after timing so these operations are not measured.
+            bool outputsMatch = aOutput.Length == count && aOutput == bOutput.ToString();
+            if (!outputsMatch)
+            {
+                throw new InvalidOperationException("The two methods produced different outputs.");
+            }
+
+            Console.WriteLine($"{count,12:N0} {appendWatch.Elapsed.TotalMilliseconds,16:F4} {buildWatch.Elapsed.TotalMilliseconds,16:F4} {outputsMatch,16}");
         }
     }
 }
