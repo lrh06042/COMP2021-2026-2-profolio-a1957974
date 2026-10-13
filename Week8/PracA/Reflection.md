@@ -52,4 +52,45 @@ I used Stopwatch to time only the loops, with a fresh output object and timer fo
 
 These are individual measurements from a Release run, without a separate warm-up. JIT compilation, garbage collection, and system activity can affect the results. In particular, StringBuilder's very short timings are noisy: the 50,000-character measurement was slightly lower than the 10,000-character measurement. The precise values will vary between runs; these measurements show a clear performance difference, rather than proving a complexity curve.
 
-The saved console output is in ../Screenshots/Topic8A-Task2-output.txt. A screenshot of the actual console output should be captured for submission.
+The submitted console screenshot is in ../Screenshots/Topic8A-Task2.png. It records a separate run, so its timings differ slightly from the measurements above.
+
+## Task 3: Graphing the analysis
+
+### Experiment
+
+I started with 20 passes, which took approximately 14 seconds, then increased iterations to 40. The final benchmark took 145.77 seconds (about 2 minutes 26 seconds). Each pass appended "z" n times, where n = pass * 10,000, giving input sizes from 10,000 to 400,000 characters.
+
+Each method started with an empty output for each pass. Stopwatch measured the loops independently, and both lists stored TotalMilliseconds. Equality and length checks ran after timing; all 40 comparisons passed. Plotting, conversion of the builder to a string, and console output were excluded from each measured loop.
+
+The two plots use the actual character count on the horizontal axis and milliseconds on the vertical axis. Their vertical scales differ because the runtimes differ greatly. The original measured points are shown without smoothing.
+
+| Characters | Append (ms) | Build (ms) |
+| ---: | ---: | ---: |
+| 100,000 | 418.5290 | 0.0604 |
+| 200,000 | 2368.6784 | 0.1239 |
+| 300,000 | 5998.8033 | 0.1753 |
+| 400,000 | 11232.1155 | 0.3197 |
+
+### 1. What is the Big-O complexity of the Append method?
+
+Repeated string concatenation in this loop has O(n^2) time complexity. Strings are immutable, so each iteration copies the growing string into a new string. Across n appends, the amount of copying is proportional to 1 + 2 + ... + n = n(n + 1) / 2, which grows quadratically.
+
+### 2. How does your evidence support this conclusion?
+
+appendPlot.png shows an upward-curving trend: the cost of adding another fixed block of characters generally increases as the input grows. From 200,000 to 400,000 characters, the measured time rose from 2368.6784 ms to 11232.1155 ms, about 4.74 times for twice the input. This is consistent with quadratic growth, rather than linear growth. It is not exactly four times because real timings also include allocation, garbage collection, and system effects. The graph supports the copying analysis but does not prove the complexity by itself.
+
+### 3. What is the Big-O complexity of the Builder method?
+
+Building the string with StringBuilder has O(n) overall time complexity for n fixed-size appends. A single append has amortized O(1) cost, so n appends require O(n) work. Occasional storage allocation does not change this overall classification. Calling ToString() would also require O(n) work, although that operation was outside the timed loop here.
+
+### 4. How does your evidence support this conclusion?
+
+buildPlot.png shows a generally increasing trend with some spikes. From 100,000 to 200,000 characters, time increased from 0.0604 ms to 0.1239 ms, about 2.05 times for twice the input. At 300,000 characters it was 0.1753 ms, about 2.90 times the 100,000-character result. These observations support approximately linear growth.
+
+The measurements are very short and include noise: the 400,000-character result was 0.3197 ms, and some smaller inputs had higher times than later inputs. JIT compilation, allocation, scheduling, and garbage collection can affect individual points. These single measurements are evidence of the broad trend, not an exact timing law or a rigorous proof. Repeated measurements and warm-up would improve confidence.
+
+### Output files
+
+- [Append plot](../Attachments/appendPlot.png)
+- [Build plot](../Attachments/buildPlot.png)
+- [All 40 measured rows](../Attachments/Task3-timings.csv)
