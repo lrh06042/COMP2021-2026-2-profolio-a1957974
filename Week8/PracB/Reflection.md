@@ -62,7 +62,7 @@ The optional first command-line argument supplies the path for further experimen
 
 ### 1. What does the ! symbol at the end of the Deserialize line do?
 
-The postfix ! is the null-forgiving operator. Deserialize can return null, so assigning its result to a non-nullable List<Player> can produce a compiler warning. Adding ! suppresses that warning for the expression; it does not change the returned value, check for null, or prevent an exception. The implementation also checks loadedPlayers for null before using it, because ! alone provides no runtime protection.
+The postfix ! is the null-forgiving operator. Deserialize can return null, so assigning its result to a non-nullable List<Player> can produce a compiler warning. Adding ! suppresses that warning for the expression; it does not change the returned value, check for null, or prevent an exception. The Task 2 version also checked loadedPlayers for null before using it. In the final refactored version, FileReader checks its deserialized result for null and does not need the ! operator.
 
 ### 2. What happens if the class properties are not public?
 
@@ -70,7 +70,7 @@ With the default System.Text.Json settings used here, non-public properties are 
 
 ### Implementation and validation
 
-Five new Player objects were added to a List<Player>. JsonSerializer.Serialize converted the list to an indented JSON string, which was printed to the console and written to Players.json. File.ReadAllText then read the saved file into a separate loadedJson variable. JsonSerializer.Deserialize<List<Player>> restored a new list from that disk-loaded string.
+Five new Player objects were added to a List<Player>. JsonSerializer.Serialize converted the list to an indented JSON string, which was printed to the console and written to Players.json. In the Task 2 version, File.ReadAllText read the saved file into a separate loadedJson variable, and JsonSerializer.Deserialize<List<Player>> restored a new list. Task 3 moved these operations into FileReader<T>, which is used in the final code.
 
 The program displayed the restored players and compared the count and all four properties against the original list. The run produced:
 
@@ -151,3 +151,103 @@ All player data matches: True
 ### Output
 
 - [FileWriter and FileReader implementation screenshot](../Screenshots/Topic8B-Task3.png)
+
+## Task 4: Displaying memory usage for LinkedList
+
+### 1. What is the purpose of the Garbage Collector?
+
+The Garbage Collector (GC) automatically manages managed memory. It identifies objects that are no longer reachable from the program's live roots and reclaims their storage for reuse. It may also compact parts of the heap. Objects that remain reachable are not collected just because GC.Collect is called. Resources such as open files still need to be disposed reliably with using or Dispose.
+
+### 2. Why does it know the current amount of bytes allocated to the Heap?
+
+The .NET runtime manages allocations on the managed heap, and the GC tracks the heap's regions and objects to perform collection. It can therefore report heap statistics. More precisely, GC.GetGCMemoryInfo().HeapSizeBytes reports the total heap size at the last garbage collection, rather than an exact live counter for one collection or object. Calling GC.Collect before querying it obtains information from a recent collection.
+
+### 3. What does GC.Collect() do?
+
+The parameterless GC.Collect forces a garbage collection across all generations. Unreachable objects can have their storage reclaimed, while reachable objects remain. It does not clear every object, guarantee that memory is immediately returned to the operating system, or reset the process's historical peak memory. Manual collection is used here for the exercise; normal application code usually lets the runtime schedule collections.
+
+### 4. Was PeakWorkingSet64 different from HeapSizeBytes? Why?
+
+Yes. In the final Release verification run on .NET 10.0.12 from Week8/PracB, HeapSizeBytes was 404,136 bytes and PeakWorkingSet64 was 30,162,944 bytes. HeapSizeBytes measures the managed heap at the last GC. PeakWorkingSet64 measures the process's highest physical working set since it started, which can include runtime components, executable code, thread stacks and unmanaged memory as well as managed memory. They differ in both scope and measurement time, so they are not expected to match. Results can vary between runs.
+
+### Implementation and observed output
+
+The five existing Player objects were added to a LinkedList<Player> with AddLast. FileWriter<LinkedList<Player>> saved the linked list, and FileReader<LinkedList<Player>> loaded a new linked list from disk. The restored count and every Name, Health, Attack and Defence value were checked against the original players.
+
+After GC.Collect, the program read HeapSizeBytes and Process.GetCurrentProcess().PeakWorkingSet64. GC.KeepAlive after the measurements ensures that the relevant collections remain alive through the measurement point. Tasks 1-3 run before this task and their collections are retained, so these figures describe the whole application, not the isolated cost of five linked-list nodes.
+
+```text
+Task 4 results: LinkedList<Player>
+LinkedList players loaded from disk: 5
+All LinkedList player data matches: True
+HeapSizeBytes: 404,136 bytes
+PeakWorkingSet64: 30,162,944 bytes
+```
+
+### Run and submission output
+
+From Week8/PracB:
+
+```powershell
+dotnet run -- ../Attachments/MyTest.txt
+```
+
+- [Linked-list JSON file](../Attachments/LinkedPlayers.json)
+- Required screenshot still to capture: the final Task 4 console results, including both memory values. Save it as Screenshots/Topic8B-Task4.png. Values in a new run may differ from the recorded run above.
+
+### References
+
+- [Microsoft: HeapSizeBytes](https://learn.microsoft.com/en-us/dotnet/api/system.gcmemoryinfo.heapsizebytes)
+- [Microsoft: PeakWorkingSet64](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.peakworkingset64)
+
+## Task 5: Benchmarking memory for List and LinkedList
+
+### Experiment
+
+Each collection type was tested in its own fresh process with the same Release build and .NET 10.0.12 runtime. The benchmark mode returns before Tasks 1-4, preventing their objects and earlier memory peaks from affecting this comparison. Both tests started with an empty collection and used a for loop from i = 0 to i < 10_000. Each iteration created a new Player with the name Player i, Health 100, Attack 10 and Defence 5. List used Add and LinkedList used AddLast.
+
+The collection was saved using FileWriter<T>, then loaded from disk using FileReader<T>. The writer's console preview was temporarily suppressed during each benchmark to avoid printing 10,000 JSON objects; the writer's implementation was unchanged. Both loaded collections were checked for all 10,000 names, statistics and their order. No validation failures occurred.
+
+GC.Collect was called before querying HeapSizeBytes and PeakWorkingSet64. The original and loaded collections were both kept alive until after the measurement using GC.KeepAlive in both cases. Therefore, each run retained two collections with 10,000 Player objects each, rather than measuring only one collection. This policy was the same for both data structures.
+
+### Recorded results
+
+These are actual measurements from separate executions of the submitted project:
+
+| Collection | Players created | Players loaded | HeapSizeBytes (bytes) | PeakWorkingSet64 (bytes) |
+| --- | ---: | ---: | ---: | ---: |
+| List<Player> | 10,000 | 10,000 | 10,575,848 | 46,931,968 |
+| LinkedList<Player> | 10,000 | 10,000 | 11,284,088 | 48,332,800 |
+
+Both runs reported `All player data matches: True`.
+
+### 1. Which class used more memory?
+
+LinkedList<Player> had the higher value for both metrics in these runs. Its reported heap size was 708,240 bytes higher, and its peak working set was 1,400,832 bytes higher. These differences describe the measured program runs, not an exact per-node or per-collection memory size.
+
+### 2. Why?
+
+List<Player> stores references in an internal array. It can have unused capacity, but it does not need a separate node object for each entry. LinkedList<Player> allocates a node for every entry, with references for the value, neighbouring nodes and owning list, plus object overhead. This additional storage usually makes LinkedList use more memory for the same number of players. The Player objects themselves and their names are also part of both runs' memory usage.
+
+The measured totals also include runtime and serializer data. HeapSizeBytes includes heap fragmentation and is a snapshot from the last GC; PeakWorkingSet64 includes the whole process's physical memory peak during creation, JSON writing, reading and validation. These single runs support the expected difference, but do not isolate the collection overhead precisely. Values may differ on later runs, and process peak measurements can be noisy.
+
+### Reproducing the benchmark
+
+Run these commands separately from Week8/PracB:
+
+```powershell
+dotnet run -c Release -- --benchmark list ../Attachments
+dotnet run -c Release -- --benchmark linkedlist ../Attachments
+```
+
+Each command starts a fresh process. Do not combine the collection tests into one process when comparing PeakWorkingSet64, because that metric retains the peak from the process's earlier activity.
+
+### Outputs
+
+- [List JSON](../Attachments/Task5-List.json)
+- [LinkedList JSON](../Attachments/Task5-LinkedList.json)
+- [Recorded List console output](../Attachments/Task5-List-results.txt)
+- [Recorded LinkedList console output](../Attachments/Task5-LinkedList-results.txt)
+- Required screenshots still to capture: the two benchmark console outputs, with collection name, counts and both memory metrics visible. Suggested names: Screenshots/Topic8B-Task5-List.png and Screenshots/Topic8B-Task5-LinkedList.png. The text records above supplement, but do not replace, the requested screenshots.
+
+Task 6 is optional and is not included in this submission.

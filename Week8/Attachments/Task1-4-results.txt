@@ -1,0 +1,96 @@
+Task 1: Basic File I/O
+Working directory: C:\Users\tr\OneDrive\Desktop\COMP2021-2026-2-profolio-a1957974\Week8\PracB
+File location: C:\Users\tr\OneDrive\Desktop\COMP2021-2026-2-profolio-a1957974\Week8\Attachments\MyTest.txt
+Text read from the file:
+Hello World
+
+Task 2: Serialise and Deserialise a List
+Task 3: Using generic FileWriter and FileReader methods
+JSON to save:
+[
+  {
+    "Name": "Alice",
+    "Health": 100,
+    "Attack": 15,
+    "Defence": 8
+  },
+  {
+    "Name": "Bob",
+    "Health": 120,
+    "Attack": 12,
+    "Defence": 10
+  },
+  {
+    "Name": "Charlie",
+    "Health": 90,
+    "Attack": 20,
+    "Defence": 5
+  },
+  {
+    "Name": "Diana",
+    "Health": 110,
+    "Attack": 18,
+    "Defence": 7
+  },
+  {
+    "Name": "Ethan",
+    "Health": 80,
+    "Attack": 25,
+    "Defence": 4
+  }
+]
+JSON file location: C:\Users\tr\OneDrive\Desktop\COMP2021-2026-2-profolio-a1957974\Week8\Attachments\Players.json
+Players loaded from disk: 5
+Name: Alice the mighty!
+Stats: HP=100, ATK=15, DEF=8
+Name: Bob the mighty!
+Stats: HP=120, ATK=12, DEF=10
+Name: Charlie the mighty!
+Stats: HP=90, ATK=20, DEF=5
+Name: Diana the mighty!
+Stats: HP=110, ATK=18, DEF=7
+Name: Ethan the mighty!
+Stats: HP=80, ATK=25, DEF=4
+All player data matches: True
+
+Task 4: Displaying memory usage for LinkedList
+JSON to save:
+[
+  {
+    "Name": "Alice",
+    "Health": 100,
+    "Attack": 15,
+    "Defence": 8
+  },
+  {
+    "Name": "Bob",
+    "Health": 120,
+    "Attack": 12,
+    "Defence": 10
+  },
+  {
+    "Name": "Charlie",
+    "Health": 90,
+    "Attack": 20,
+    "Defence": 5
+  },
+  {
+    "Name": "Diana",
+    "Health": 110,
+    "Attack": 18,
+    "Defence": 7
+  },
+  {
+    "Name": "Ethan",
+    "Health": 80,
+    "Attack": 25,
+    "Defence": 4
+  }
+]
+Task 4 results: LinkedList<Player>
+JSON file location: C:\Users\tr\OneDrive\Desktop\COMP2021-2026-2-profolio-a1957974\Week8\Attachments\LinkedPlayers.json
+LinkedList players loaded from disk: 5
+All LinkedList player data matches: True
+HeapSizeBytes: 404,136 bytes
+PeakWorkingSet64: 30,162,944 bytes
+These are whole-application metrics, not the LinkedList's size alone.

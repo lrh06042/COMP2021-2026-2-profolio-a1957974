@@ -1,0 +1,10 @@
+Task 5: List<Player>
+Runtime: 10.0.12
+Players created: 10,000
+Players loaded from disk: 10,000
+All player data matches: True
+HeapSizeBytes: 10,575,848 bytes
+PeakWorkingSet64: 46,931,968 bytes
+Original and loaded collections are both alive.
+Whole-process measurements; each collection type runs in a fresh process.
+JSON file: C:\Users\tr\OneDrive\Desktop\COMP2021-2026-2-profolio-a1957974\Week8\Attachments\Task5-List.json
