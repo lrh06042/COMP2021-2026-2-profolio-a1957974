@@ -1,0 +1,15 @@
+Week 9 Prac B - Task 1: Dijkstra's Algorithm
+Graph: 16 nodes, 23 undirected edges
+
+Dijkstra:
+Start -> A -> C -> F -> G -> H -> K -> N -> M -> L -> End
+Total cost: 10
+Bee nodes on path: 0
+
+BFS (ignores weights):
+Start -> A -> C -> F -> I (BEES) -> L -> End
+Edges: 6; Total cost: 14
+
+DFS (ignores weights):
+Start -> B (BEES) -> E (BEES) -> H -> K -> N -> M -> J (BEES) -> G -> D (BEES) -> C -> F -> I (BEES) -> L -> End
+Edges: 14; Total cost: 50

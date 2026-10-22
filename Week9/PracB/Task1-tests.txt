@@ -1,0 +1,13 @@
+PASS: 16 nodes and 23 undirected edges
+PASS: Symmetric edges
+PASS: Expected shortest path and cost 10
+PASS: No bees on shortest path
+PASS: Valid BFS/DFS path
+PASS: Valid BFS/DFS path
+PASS: Improved distance and stale queue entry
+PASS: Unreachable target
+PASS: Start equals target
+PASS: Zero-weight edge
+PASS: Large total distance
+PASS: Reject negative edge
+All 12 checks passed.

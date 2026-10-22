@@ -69,3 +69,51 @@ The optional Parents dictionary and path reconstruction are implemented. Each ca
 - Console showing both initial and adjusted Checked/Path results: save as ../Screenshots/Topic9A-Task2-Output.png.
 
 These screenshots still need to be captured from the editor and console.
+
+## Task 3: Traversing with DFS
+
+### 1. For the initial graph, which algorithm would find the target faster, BFS or DFS? Why?
+
+With the neighbour insertion order used in this program, DFS reaches I after checking A, C, F, I: four nodes. BFS checks all nine nodes before reaching I. DFS pushes B and then C, so its LIFO stack explores the C branch first and reaches I directly. This comparison is based on nodes checked, not a wall-clock benchmark. Different neighbour ordering or a different target could change which algorithm finds the target first.
+
+### 2. For the adjusted graph, which algorithm would find the target faster, BFS or DFS? Why?
+
+On the Task 3 adjusted graph, DFS checks A, C, F, H, I: five nodes. BFS checks nine nodes on that same graph. F's neighbours are stored as C, I, E, H, so H is pushed last and popped first. From H, I is pushed last and visited next. DFS therefore finds I with fewer node checks in this run.
+
+However, the DFS path A -> C -> F -> H -> I has four edges, while BFS returns the shorter path A -> C -> F -> I with three edges. DFS does not guarantee a shortest path. The program runs BFS again on the Task 3 graph so this comparison uses the same edges, rather than the different Task 2 adjusted graph.
+
+### 3. If the algorithms are different, how can the computational complexity of BFS and DFS be the same?
+
+They visit nodes in different orders, but both can examine every reachable vertex and edge in the worst case. With adjacency lists and average constant-time hash operations, both therefore have O(|V| + |E|) time complexity. Stopping as soon as the target is found can reduce the actual work for a particular search without changing the worst-case bound.
+
+My iterative DFS skips already visited nodes when popping the stack, so it never expands a node twice. Pending duplicates can exist in a cyclic graph, but each stack entry comes from an examined adjacency entry. This keeps total time O(|V| + |E|); this implementation's auxiliary space can also be O(|V| + |E|). Each entry carries its candidate parent, which is recorded only on the node's first visit. This makes the optional reconstructed path follow the actual DFS discovery route and avoids overwriting parents of visited nodes.
+
+### Graph setup
+
+Before DFS starts, the program restores the original graph by removing G-H and H-I in both directions and restoring F-I. After the original DFS run, it adds D-E, E-F, F-H, G-H and H-I, keeping F-I. Each search call creates fresh search collections.
+
+### Console output
+
+```text
+Task 3: DFS - initial graph
+Start: A, Target: I, Found: True
+Checked (including target): A -> C -> F -> I
+Path: A -> C -> F -> I
+
+Task 3: DFS - adjusted graph
+Start: A, Target: I, Found: True
+Checked (including target): A -> C -> F -> H -> I
+Path: A -> C -> F -> H -> I
+
+Task 3 comparison: BFS - same adjusted graph
+Start: A, Target: I, Found: True
+Checked (including target): A -> B -> C -> D -> E -> F -> G -> H -> I
+Path: A -> C -> F -> I
+```
+
+### Required screenshots
+
+- DFS code in GraphSearch.cs: save as ../Screenshots/Topic9A-Task3-Code.png (use multiple screenshots if needed).
+- Console showing the original and adjusted DFS Checked/Path results: save as ../Screenshots/Topic9A-Task3-Output.png.
+
+These screenshots still need to be captured from the editor and console.

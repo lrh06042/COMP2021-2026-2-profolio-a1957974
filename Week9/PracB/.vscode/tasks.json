@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "PARCB: build",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "${workspaceFolder}/PARCB.csproj"],
+      "options": { "cwd": "${workspaceFolder}", "env": { "DOTNET_CLI_TELEMETRY_OPTOUT": "1" } },
+      "problemMatcher": "$msCompile",
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "PARCB: run",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["run", "--project", "${workspaceFolder}/PARCB.csproj"],
+      "options": { "cwd": "${workspaceFolder}", "env": { "DOTNET_CLI_TELEMETRY_OPTOUT": "1" } },
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
