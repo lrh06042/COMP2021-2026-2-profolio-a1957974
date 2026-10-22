@@ -1,4 +1,3 @@
-# Task 2 附件
+# AI source attachments
 
-保存 AI 生成的 .cs 源文件；也可按课程建议改为 .cs.txt。
-主项目已排除此文件夹中的 .cs，避免重复编译。
+Task2-AI/Program.cs.txt is the source code for Task 2. The project and SDK files are supplied as .txt copies too. Runnable originals are in ../AIComparison/HorseDijkstraAI. The main project excludes this directory from compilation.

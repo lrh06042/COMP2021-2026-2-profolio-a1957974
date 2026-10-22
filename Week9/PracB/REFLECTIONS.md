@@ -1,26 +1,5 @@
-# Week 9 Prac B 反思草稿
+# Reflection index
 
-## Task 1
-1. 用自己的话解释：距离初始化、优先队列、松弛、父节点及路径回溯。
-   - 已完成：见 TASK1.md 的 Reflection 1。
-2. Dijkstra 的复杂度为什么与 BFS / DFS 不同？
-   - 已完成：见 TASK1.md 的 Reflection 1。提示：邻接表 BFS/DFS 为 O(V+E)。使用堆、允许重复入队且跳过过期项的 Dijkstra 可写作 O((V+E) log(V+E))，简单图中通常简写 O((V+E) log V)。
-   - BFS 只保证等权图的最少边路径；DFS 通常不保证最短路径。课件把两者都描述为寻找最少节点路径并不严谨。
-
-## Task 2（在实际完成比较后填写）
-1. 实际使用的 AI 工具：
-2. 实际提示词：
-3. 是否一次成功？修改多少轮？
-4. 与自己的实现相比，一个明显差异：
-5. AI 实现更好的一个方面：
-6. AI 实现更差的一个方面：
-
-## Task 3（按个人真实经历填写）
-1. 最喜欢的 C# 特性及原因：
-2. 最不喜欢的 C# 特性及原因：
-3. 最容易的练习或主题及原因：
-4. 最有趣的练习或主题及原因：
-5. 考前重点复习的一个方面：
-6. 给下学期学生的一条建议：
-7. 给课程协调员的一条改进建议：
-
+Task 1: see TASK1.md, Reflection 1 and Reflection 2.
+Task 2: see TASK2.md, questions 1–6.
+Task 3: see TASK3-DRAFT.md, questions 1–7. Personal answers must be confirmed before submission.

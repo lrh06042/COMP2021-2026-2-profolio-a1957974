@@ -1,0 +1,5 @@
+Task 2 - AI matrix-based Dijkstra
+Graph: 16 vertices, 23 undirected edges
+Start -> A -> C -> F -> G -> H -> K -> N -> M -> L -> End
+Total cost: 10
+Bee nodes on path: 0

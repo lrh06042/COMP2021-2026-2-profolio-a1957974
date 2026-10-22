@@ -1,0 +1,9 @@
+PASS: 23 undirected edges
+PASS: Expected horse route and cost
+PASS: No bees
+PASS: Unreachable target
+PASS: Start equals target
+PASS: Zero-weight edge
+PASS: Large distance
+PASS: Reject negative edge
+All 8 checks passed.
